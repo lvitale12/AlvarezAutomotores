@@ -1,26 +1,41 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Sparkles } from 'lucide-react';
 
-// Hero slides — like Rayco's model-specific hero slider
+// Hero slides with local image routing, responsive fits and tailored object-positions
 const slides = [
   {
-    image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069&auto=format&fit=crop',
-    subtitle: 'Usados Seleccionados',
-    title: 'Hay un auto\npara cada camino.',
-    cta: { label: 'Descubrí los vehículos', href: '#usados' },
+    image: '/images/hero-1.png',
+    subtitle: 'Nuestra Casa',
+    title: 'Bienvenidos a\nÁlvarez Automotores.',
+    cta: { label: 'Conocer más', href: '#empresa' },
+    fitDesktop: 'sm:object-cover',
+    posDesktop: 'sm:object-[center_60%]',
+    fitMobile: 'object-cover',
+    posMobile: 'object-center'
   },
   {
-    image: 'https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=2069',
-    subtitle: 'Pick-Ups & Utilitarios',
-    title: 'Potencia que\nno se detiene.',
-    cta: { label: 'Ver pick-ups', href: '#usados' },
+    image: '/images/hero-2.png',
+    subtitle: 'Calidad Premium',
+    title: 'Usados con\ngarantía real.',
+    cta: { label: 'Ver vehículos', href: '#usados' },
+    fitDesktop: 'sm:object-cover',
+    posDesktop: 'sm:object-[center_80%]',
+    fitMobile: 'object-cover',
+    posMobile: 'object-[center_70%]'
   },
   {
-    image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=2069',
-    subtitle: 'Financiación oficial',
-    title: 'Tu próximo 0KM\ncon cuotas fijas.',
-    cta: { label: 'Simular plan', href: '#financiacion' },
+    image: '/images/hero-3.jpg',
+    imageLeft: '/images/hero-3-left.jpg',
+    imageRight: '/images/hero-3-right.jpg',
+    subtitle: 'Oportunidades únicas',
+    title: 'Tu próxima\ncamioneta.',
+    cta: { label: 'Solicitar cotización', href: '#contacto' },
+    // A classic centered placement works best since it's flanked by two other trucks
+    fitDesktop: 'sm:object-cover',
+    posDesktop: 'sm:object-center',
+    fitMobile: 'object-cover',
+    posMobile: 'object-[center_25%]'
   },
 ];
 
@@ -62,20 +77,64 @@ export default function Hero() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: 'easeInOut' }}
           style={{ y: yBg, scale: scaleBg }}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 bg-brand-black flex overflow-hidden"
         >
-          <img
-            src={slide.image}
-            alt={slide.subtitle}
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-          />
+          {slide.imageLeft && slide.imageRight ? (
+            // 3-Image Desktop Grid Layout
+            <>
+              {/* Left Image Flank */}
+              <div className="hidden sm:block w-1/3 h-full relative shadow-[inset_-20px_0_50px_rgba(0,0,0,0.5)] z-0">
+                <img
+                  src={slide.imageLeft}
+                  alt=""
+                  className="w-full h-full object-cover grayscale-[30%] contrast-[1.1] saturate-[1.2] brightness-[0.6]"
+                />
+              </div>
+
+              {/* Center Main Image */}
+              <div className="w-full sm:w-1/3 h-full relative z-10 shadow-[0_0_80px_rgba(0,0,0,0.9)] scale-[1.02]">
+                <img
+                  src={slide.image}
+                  alt={slide.subtitle}
+                  className={`w-full h-full ${slide.fitMobile} ${slide.fitDesktop} ${slide.posMobile} ${slide.posDesktop} contrast-[1.15] saturate-[1.20] brightness-[0.85] rounded-none sm:rounded-sm shadow-2xl`}
+                  loading="eager"
+                />
+              </div>
+
+              {/* Right Image Flank */}
+              <div className="hidden sm:block w-1/3 h-full relative shadow-[inset_20px_0_50px_rgba(0,0,0,0.5)] z-0">
+                <img
+                  src={slide.imageRight}
+                  alt=""
+                  className="w-full h-full object-cover grayscale-[30%] contrast-[1.1] saturate-[1.2] brightness-[0.6]"
+                />
+              </div>
+            </>
+          ) : (
+            // Standard Single Image Layout with Blur Backbone
+            <>
+              <img
+                src={slide.image}
+                alt=""
+                className="hidden sm:block w-full h-full object-cover blur-3xl opacity-30 scale-110"
+                aria-hidden="true"
+              />
+              <img
+                src={slide.image}
+                alt={slide.subtitle}
+                className={`absolute inset-0 w-full h-full ${slide.fitMobile} ${slide.fitDesktop} ${slide.posMobile} ${slide.posDesktop} contrast-[1.15] saturate-[1.20] brightness-[0.85]`}
+                loading="eager"
+              />
+            </>
+          )}
         </motion.div>
       </AnimatePresence>
 
-      {/* Overlays */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-brand-blue via-brand-blue/40 to-brand-blue/60" />
-      <div className="absolute inset-0 z-10 noise-overlay pointer-events-none" />
+      {/* Overlays - Increased opacity and vignette to hide low resolution edges */}
+      <div className="absolute inset-0 z-10 bg-black/20" />
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-brand-blue/90 via-brand-blue/50 to-brand-blue/20" />
+      <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)] pointer-events-none" />
+      <div className="absolute inset-0 z-10 noise-overlay pointer-events-none opacity-40" />
 
       {/* Content */}
       <motion.div
@@ -83,7 +142,6 @@ export default function Hero() {
         className="relative z-20 max-w-7xl mx-auto px-6 w-full pt-20"
       >
         <div className="max-w-3xl">
-          {/* Subtitle badge */}
           <AnimatePresence mode="wait">
             <motion.div
               key={`badge-${currentSlide}`}
@@ -91,16 +149,18 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.6 }}
-              className="flex items-center gap-4 mb-8"
+              className="flex items-center justify-center sm:justify-start gap-4 mb-6 sm:mb-8"
             >
-              <div className="h-px w-12 bg-white/30" />
-              <span className="text-white/70 text-xs font-bold tracking-[0.3em] uppercase">
+              <div className="hidden sm:block h-px w-12 bg-white/30" />
+              <Sparkles className="w-3.5 h-3.5 text-brand-yellow/80" />
+              <span className="text-white/80 text-[10px] sm:text-xs font-bold tracking-[0.25em] sm:tracking-[0.3em] uppercase">
                 {slide.subtitle}
               </span>
+              <Sparkles className="w-3.5 h-3.5 text-brand-yellow/80" />
             </motion.div>
           </AnimatePresence>
 
-          {/* Headline */}
+          {/* Headline - Added text-balance and mobile safe sizing */}
           <AnimatePresence mode="wait">
             <motion.h1
               key={`title-${currentSlide}`}
@@ -108,13 +168,13 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl sm:text-6xl md:text-8xl font-montserrat font-black tracking-tighter text-white leading-[0.95] mb-10 whitespace-pre-line"
+              className="text-4xl sm:text-6xl md:text-8xl font-montserrat font-black tracking-tighter text-white text-balance text-center sm:text-left leading-[1.05] sm:leading-[0.95] mb-10 whitespace-pre-line"
             >
               {slide.title}
             </motion.h1>
           </AnimatePresence>
 
-          {/* CTA */}
+          {/* CTA - Enlarged min-height for touch targets */}
           <AnimatePresence mode="wait">
             <motion.div
               key={`cta-${currentSlide}`}
@@ -122,11 +182,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-col sm:flex-row items-start gap-4"
+              className="flex flex-col sm:flex-row items-center sm:items-start gap-4 w-full sm:w-auto"
             >
               <a
                 href={slide.cta.href}
-                className="group flex items-center gap-3 px-8 py-4 bg-white text-brand-blue font-bold rounded-xl transition-all hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5"
+                className="group w-full sm:w-auto min-h-[56px] flex items-center justify-center gap-3 px-8 py-4 bg-white text-brand-blue font-bold rounded-xl transition-all hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5"
               >
                 {slide.cta.label}
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -135,7 +195,7 @@ export default function Hero() {
                 href="https://wa.me/5492227513962?text=Hola%20Álvarez%20Automotores,%20quisiera%20hacer%20una%20consulta."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-semibold rounded-xl transition-all hover:bg-white/10 hover:border-white/40 backdrop-blur-sm"
+                className="w-full sm:w-auto min-h-[56px] flex items-center justify-center gap-3 px-8 py-4 border border-white/20 text-white font-semibold rounded-xl transition-all hover:bg-white/10 hover:border-white/40 backdrop-blur-sm"
               >
                 Solicitar asesoramiento
               </a>

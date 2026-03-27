@@ -7,6 +7,7 @@ import TrustSection from './components/TrustSection';
 import VehicleGrid from './components/VehicleGrid';
 import CategoriesSection from './components/CategoriesSection';
 import AboutContactSection from './components/AboutContactSection';
+import ScheduleVisit from './components/ScheduleVisit';
 import VehicleDetail from './components/VehicleDetail';
 import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
 import Footer from './components/Footer';
@@ -30,6 +31,7 @@ export default function App() {
             <VehicleGrid onSelectVehicle={setSelectedVehicle} />
             <CategoriesSection />
             <AboutContactSection />
+            <ScheduleVisit />
           </main>
         )}
       </AnimatePresence>
