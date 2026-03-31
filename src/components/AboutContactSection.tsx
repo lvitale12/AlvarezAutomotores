@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Clock, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function AboutContactSection({ hideAbout = false }: { hideAbout?: boolean }) {
   return (
@@ -123,12 +124,12 @@ export default function AboutContactSection({ hideAbout = false }: { hideAbout?:
               </div>
 
               <div className="pt-6">
-                <a
-                  href="#agendar"
+                <Link
+                  to="/contacto"
                   className="inline-flex w-full sm:w-auto px-8 py-5 min-h-[56px] bg-brand-blue hover:bg-brand-navy text-white text-center rounded-2xl font-bold transition-all shadow-lg flex justify-center items-center gap-3 group uppercase tracking-wide text-sm"
                 >
                   Agendar visita ahora <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                </Link>
               </div>
             </div>
 

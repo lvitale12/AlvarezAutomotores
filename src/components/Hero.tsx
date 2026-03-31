@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 type Slide = {
   image: string;
@@ -21,7 +22,7 @@ const slides: Slide[] = [
     image: '/images/hero-1-local.jpg',
     subtitle: 'Nuestra Casa',
     title: 'Bienvenidos a\nÁlvarez Automotores.',
-    cta: { label: 'Conocer más', href: '#empresa' },
+    cta: { label: 'Conocer más', href: '#nosotros' },
     fitDesktop: 'sm:object-cover',
     posDesktop: 'sm:object-[center_60%]',
     fitMobile: 'object-cover',
@@ -43,7 +44,7 @@ const slides: Slide[] = [
     imageRight: '/images/hero-3-right.jpg',
     subtitle: 'Oportunidades únicas',
     title: 'Conseguí tu\ncamioneta.',
-    cta: { label: 'Solicitar cotización', href: '#contacto' },
+    cta: { label: 'Solicitar cotización', href: '/contacto' },
     // A classic centered placement works best since it's flanked by two other trucks
     fitDesktop: 'sm:object-cover',
     posDesktop: 'sm:object-center',
@@ -197,13 +198,23 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-col sm:flex-row items-center sm:items-start gap-4 w-full sm:w-auto"
             >
-              <a
-                href={slide.cta.href}
-                className="group w-full sm:w-auto min-h-[56px] flex items-center justify-center gap-3 px-8 py-4 bg-white text-brand-blue font-bold rounded-xl transition-all hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5"
-              >
-                {slide.cta.label}
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              {slide.cta.href.startsWith('/') ? (
+                <Link
+                  to={slide.cta.href}
+                  className="group w-full sm:w-auto min-h-[56px] flex items-center justify-center gap-3 px-8 py-4 bg-white text-brand-blue font-bold rounded-xl transition-all hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5"
+                >
+                  {slide.cta.label}
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              ) : (
+                <a
+                  href={slide.cta.href}
+                  className="group w-full sm:w-auto min-h-[56px] flex items-center justify-center gap-3 px-8 py-4 bg-white text-brand-blue font-bold rounded-xl transition-all hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5"
+                >
+                  {slide.cta.label}
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+              )}
               <a
                 href="https://wa.me/5492227513962?text=Hola%20Álvarez%20Automotores,%20quisiera%20hacer%20una%20consulta."
                 target="_blank"
