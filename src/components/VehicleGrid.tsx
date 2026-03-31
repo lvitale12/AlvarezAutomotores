@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect, MouseEvent } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import type { MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { vehicles } from '../data/mockData';
 import type { Vehicle } from '../data/mockData';
-import { ChevronRight, SlidersHorizontal, MessageCircle, Info } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { ChevronRight, MessageCircle, Info } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 // Helper: Format price display
@@ -40,14 +42,11 @@ function useTilt() {
 
 // --- Image Cycler Component ---
 // Cycles through the gallery when hovering
-const HoverImageCycler = ({ gallery, isHovered }: { gallery: string[]; isHovered: boolean }) => {
+export const HoverImageCycler = ({ gallery, isHovered }: { gallery: string[]; isHovered: boolean }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (!isHovered || gallery.length <= 1) {
-      setCurrentIndex(0);
-      return;
-    }
+    if (!isHovered || gallery.length <= 1) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % gallery.length);
@@ -56,12 +55,14 @@ const HoverImageCycler = ({ gallery, isHovered }: { gallery: string[]; isHovered
     return () => clearInterval(interval);
   }, [isHovered, gallery.length]);
 
+  const displayIndex = (!isHovered || gallery.length <= 1) ? 0 : currentIndex;
+
   return (
     <>
       <AnimatePresence mode="popLayout">
         <motion.img
-          key={currentIndex}
-          src={gallery[currentIndex]}
+          key={displayIndex}
+          src={gallery[displayIndex]}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -80,7 +81,7 @@ const HoverImageCycler = ({ gallery, isHovered }: { gallery: string[]; isHovered
               key={i}
               className={cn(
                 "w-12 h-1 rounded-full backdrop-blur-md transition-all duration-300",
-                i === currentIndex ? "bg-white/90" : "bg-black/30 w-8"
+                i === displayIndex ? "bg-white/90" : "bg-black/30 w-8"
               )}
             />
           ))}
@@ -192,7 +193,7 @@ const FeaturedVehicle = ({ vehicle, onClick }: { vehicle: Vehicle; onClick: () =
 };
 
 // --- Standard Grid Card ---
-const VehicleCard = ({ vehicle, onClick, isWide }: { vehicle: Vehicle; onClick: () => void; isWide?: boolean }) => {
+export const VehicleCard = ({ vehicle, onClick, isWide }: { vehicle: Vehicle; onClick: () => void; isWide?: boolean }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -270,6 +271,7 @@ const VehicleCard = ({ vehicle, onClick, isWide }: { vehicle: Vehicle; onClick: 
 export default function VehicleGrid({ onSelectVehicle }: { onSelectVehicle: (v: Vehicle) => void }) {
   const [filter, setFilter] = useState<'Todos'|'0km'|'usado'>('Todos');
   const [sort, setSort] = useState<'recientes'|'menor_precio'|'mayor_precio'>('recientes');
+  const location = useLocation();
 
   // Logic: 
   // 1. Separate featured from rest
@@ -327,7 +329,7 @@ export default function VehicleGrid({ onSelectVehicle }: { onSelectVehicle: (v: 
             <div className="relative group">
               <select 
                 value={sort}
-                onChange={(e) => setSort(e.target.value as any)}
+                onChange={(e) => setSort(e.target.value as 'recientes'|'menor_precio'|'mayor_precio')}
                 className="appearance-none bg-white border border-gray-200 text-brand-blue text-sm font-bold rounded-xl px-5 py-3 pr-10 hover:border-brand-blue transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
               >
                 <option value="recientes">Más relevantes</option>
@@ -391,6 +393,24 @@ export default function VehicleGrid({ onSelectVehicle }: { onSelectVehicle: (v: 
             )}
           </motion.div>
         </AnimatePresence>
+
+        {/* Ver catálogo completo button only on Home */}
+        {location.pathname === '/' && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 pt-8 border-t border-gray-100 text-center"
+          >
+            <Link 
+              to="/catalogo"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-brand-blue text-white rounded-2xl font-bold hover:bg-brand-navy shadow-xl shadow-brand-blue/20 transition-all group"
+            >
+              Ver catálogo completo
+              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        )}
 
       </div>
     </section>

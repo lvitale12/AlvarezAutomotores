@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Clock, ChevronRight } from 'lucide-react';
 
-export default function AboutContactSection() {
+export default function AboutContactSection({ hideAbout = false }: { hideAbout?: boolean }) {
   return (
     <section id="nosotros" className="py-28 bg-white relative overflow-hidden">
       {/* Decorative gradient */}
@@ -10,7 +10,8 @@ export default function AboutContactSection() {
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-24">
         
         {/* TOP SECTION: ABOUT & VIDEO */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {!hideAbout && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           {/* Left: About Text */}
           <motion.div
@@ -66,6 +67,7 @@ export default function AboutContactSection() {
             </div>
           </motion.div>
         </div>
+        )}
 
         {/* BOTTOM SECTION: MAP AND CONTACT */}
         <motion.div

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { ShieldCheck, CarFront, BadgeDollarSign, Headphones } from 'lucide-react';
 
 const features = [
@@ -25,7 +26,7 @@ const features = [
 ];
 
 // Stagger container + children pattern from framer-motion skill
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
@@ -34,7 +35,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,

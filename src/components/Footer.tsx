@@ -1,4 +1,5 @@
 import { Phone, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -27,11 +28,10 @@ export default function Footer() {
           <div className="md:col-span-2">
             <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-white/30 mb-6">Navegación</h4>
             <div className="flex flex-col gap-3">
-              {['Inicio', 'Vehículos', 'Financiación', 'Nosotros'].map(link => (
-                <a key={link} href={`#${link.toLowerCase()}`} className="text-white/60 hover:text-white transition-colors text-sm font-medium">
-                  {link}
-                </a>
-              ))}
+              <Link to="/" className="text-white/60 hover:text-white transition-colors text-sm font-medium">Inicio</Link>
+              <Link to="/catalogo" className="text-white/60 hover:text-white transition-colors text-sm font-medium">Catálogo</Link>
+              <Link to="/#financiacion" className="text-white/60 hover:text-white transition-colors text-sm font-medium">Financiación</Link>
+              <Link to="/contacto" className="text-white/60 hover:text-white transition-colors text-sm font-medium">Contacto</Link>
             </div>
           </div>
 

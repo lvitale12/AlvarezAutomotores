@@ -2,10 +2,23 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Sparkles } from 'lucide-react';
 
+type Slide = {
+  image: string;
+  imageLeft?: string;
+  imageRight?: string;
+  subtitle: string;
+  title: string;
+  cta: { label: string; href: string };
+  fitDesktop: string;
+  posDesktop: string;
+  fitMobile: string;
+  posMobile: string;
+};
+
 // Hero slides with local image routing, responsive fits and tailored object-positions
-const slides = [
+const slides: Slide[] = [
   {
-    image: '/images/hero-1.png',
+    image: '/images/hero-1-local.jpg',
     subtitle: 'Nuestra Casa',
     title: 'Bienvenidos a\nÁlvarez Automotores.',
     cta: { label: 'Conocer más', href: '#empresa' },
@@ -15,21 +28,21 @@ const slides = [
     posMobile: 'object-center'
   },
   {
-    image: '/images/hero-2.png',
+    image: '/images/hero-2-camionetas.jpg',
     subtitle: 'Calidad Premium',
     title: 'Usados con\ngarantía real.',
     cta: { label: 'Ver vehículos', href: '#usados' },
     fitDesktop: 'sm:object-cover',
-    posDesktop: 'sm:object-[center_80%]',
+    posDesktop: 'sm:object-[center_40%]',
     fitMobile: 'object-cover',
-    posMobile: 'object-[center_70%]'
+    posMobile: 'object-[center_40%]'
   },
   {
-    image: '/images/hero-3.jpg',
+    image: '/images/hero-3-center-redbow.jpg',
     imageLeft: '/images/hero-3-left.jpg',
     imageRight: '/images/hero-3-right.jpg',
     subtitle: 'Oportunidades únicas',
-    title: 'Tu próxima\ncamioneta.',
+    title: 'Conseguí tu\ncamioneta.',
     cta: { label: 'Solicitar cotización', href: '#contacto' },
     // A classic centered placement works best since it's flanked by two other trucks
     fitDesktop: 'sm:object-cover',

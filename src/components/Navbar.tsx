@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Menu, X, Phone, ChevronDown, CarFront, Zap, Truck } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -39,7 +40,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo — Navy primary */}
-          <a href="#inicio" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-3 group">
             <div className={cn(
               "w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 font-montserrat font-black text-lg",
               isScrolled
@@ -62,16 +63,16 @@ export default function Navbar() {
                 Automotores
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Links — Concesionaria terminology */}
           <div className="hidden md:flex items-center gap-1">
-            <a href="#inicio" className={cn(
+            <Link to="/" className={cn(
               "px-4 py-2 text-sm font-medium transition-all rounded-lg hover:bg-white/10",
               isScrolled ? "text-brand-steel hover:text-brand-blue hover:bg-slate-50" : "text-white/80 hover:text-white"
             )}>
               Inicio
-            </a>
+            </Link>
 
             {/* Vehículos Mega Menu */}
             <div
@@ -83,7 +84,7 @@ export default function Navbar() {
                 "flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-all rounded-lg hover:bg-white/10",
                 isScrolled ? "text-brand-steel hover:text-brand-blue hover:bg-slate-50" : "text-white/80 hover:text-white"
               )}>
-                Vehículos
+                Catálogo
                 <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", isMegaMenuOpen && "rotate-180")} />
               </button>
 
@@ -97,7 +98,7 @@ export default function Navbar() {
                     className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-[520px] bg-white rounded-2xl shadow-2xl shadow-brand-blue/10 border border-gray-100 overflow-hidden"
                   >
                     <div className="p-2">
-                      <a href="#usados" className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors group">
+                      <Link to="/catalogo" state={{ filter: 'usado' }} onClick={() => setIsMegaMenuOpen(false)} className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors group">
                         <div className="w-12 h-12 rounded-xl bg-brand-blue/5 flex items-center justify-center text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all">
                           <CarFront className="w-6 h-6" />
                         </div>
@@ -105,8 +106,8 @@ export default function Navbar() {
                           <h4 className="font-montserrat font-bold text-brand-blue text-sm">Usados Seleccionados</h4>
                           <span className="text-xs text-slate-400">Unidades peritadas y garantizadas</span>
                         </div>
-                      </a>
-                      <a href="#usados" className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors group">
+                      </Link>
+                      <Link to="/catalogo" state={{ filter: '0km' }} onClick={() => setIsMegaMenuOpen(false)} className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors group">
                         <div className="w-12 h-12 rounded-xl bg-brand-blue/5 flex items-center justify-center text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all">
                           <Zap className="w-6 h-6" />
                         </div>
@@ -114,8 +115,8 @@ export default function Navbar() {
                           <h4 className="font-montserrat font-bold text-brand-blue text-sm">0KM</h4>
                           <span className="text-xs text-slate-400">Todas las marcas y planes vigentes</span>
                         </div>
-                      </a>
-                      <a href="#usados" className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors group">
+                      </Link>
+                      <Link to="/catalogo" state={{ searchQuery: 'pickup' }} onClick={() => setIsMegaMenuOpen(false)} className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors group">
                         <div className="w-12 h-12 rounded-xl bg-brand-blue/5 flex items-center justify-center text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all">
                           <Truck className="w-6 h-6" />
                         </div>
@@ -123,38 +124,30 @@ export default function Navbar() {
                           <h4 className="font-montserrat font-bold text-brand-blue text-sm">Pick-Ups & Utilitarios</h4>
                           <span className="text-xs text-slate-400">Trabajo y aventura</span>
                         </div>
-                      </a>
+                      </Link>
                     </div>
                     <div className="border-t border-gray-100 p-4 bg-slate-50/50">
-                      <a href="#usados" className="text-sm font-bold text-brand-blue hover:text-brand-red transition-colors flex items-center gap-2">
+                      <Link to="/catalogo" onClick={() => setIsMegaMenuOpen(false)} className="text-sm font-bold text-brand-blue hover:text-brand-red transition-colors flex items-center gap-2">
                         Descubrí todos los vehículos <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
-                      </a>
+                      </Link>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            <a href="#financiacion" className={cn(
+            <Link to="/contacto" className={cn(
               "px-4 py-2 text-sm font-medium transition-all rounded-lg hover:bg-white/10",
               isScrolled ? "text-brand-steel hover:text-brand-blue hover:bg-slate-50" : "text-white/80 hover:text-white"
             )}>
-              Financiación
-            </a>
-            <a href="#nosotros" className={cn(
-              "px-4 py-2 text-sm font-medium transition-all rounded-lg hover:bg-white/10",
-              isScrolled ? "text-brand-steel hover:text-brand-blue hover:bg-slate-50" : "text-white/80 hover:text-white"
-            )}>
-              Nosotros
-            </a>
+              Contacto
+            </Link>
           </div>
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <a
-              href="https://wa.me/5492227513962?text=Hola%20Álvarez%20Automotores,%20quisiera%20agendar%20una%20visita."
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/contacto"
               className={cn(
                 "flex items-center gap-2 px-5 py-2.5 text-sm font-bold rounded-xl transition-all",
                 isScrolled
@@ -163,8 +156,8 @@ export default function Navbar() {
               )}
             >
               <Phone className="w-4 h-4" />
-              Consultá
-            </a>
+              Agendar Visita
+            </Link>
           </div>
 
           {/* Mobile Toggle */}
@@ -209,22 +202,24 @@ export default function Navbar() {
 
             <div className="flex-1 flex flex-col justify-center px-8 gap-2">
               {[
-                { name: 'Inicio', href: '#inicio' },
-                { name: 'Vehículos', href: '#usados' },
-                { name: 'Financiación', href: '#financiacion' },
-                { name: 'Nosotros', href: '#nosotros' },
+                { name: 'Inicio', href: '/' },
+                { name: 'Catálogo', href: '/catalogo' },
+                { name: 'Contacto', href: '/contacto' },
               ].map((link, i) => (
-                <motion.a
+                <motion.div
                   key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="text-4xl font-montserrat font-black text-white/90 hover:text-white py-3 transition-colors"
                 >
-                  {link.name}
-                </motion.a>
+                  <Link
+                    to={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-4xl font-montserrat font-black text-white/90 hover:text-white py-3 transition-colors block"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
               ))}
             </div>
 
